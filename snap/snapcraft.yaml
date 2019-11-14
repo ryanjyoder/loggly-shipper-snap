@@ -28,6 +28,7 @@ parts:
     plugin: dump
     source: dummy
     source-type: zip
+    build-packages: [wget]
     override-pull: |
       wget https://logdog.loggly.com/media/logs-01.loggly.com_sha12.crt
 
