@@ -14,7 +14,6 @@ apps:
     daemon: simple
     plugs: 
       - network
-      - network-bind
       - log-observe
     environment:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/
