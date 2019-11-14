@@ -1,0 +1,52 @@
+name: loggly-shipper
+base: core18 
+version: '0.1'
+summary: Simple rsyslog based snap that ships logs to loggly 
+description: |
+  Ships logs to [Loggly](https://loggle.com) from journald using rsyslog. To configure set your 'customer-token'. `snap set loggly-shipper customer-token=<your-token>`
+
+grade: devel 
+confinement: strict 
+
+apps:
+  rsyslog:
+    command: usr/sbin/rsyslogd -f $SNAP_DATA/config -i $SNAP_DATA/pid -n 
+    daemon: simple
+    plugs: 
+      - network
+      - network-bind
+      - log-observe
+    environment:
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/
+
+layout:
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/rsyslog:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/rsyslog
+
+parts:
+  certs:
+    plugin: dump
+    source: dummy
+    source-type: zip
+    override-pull: |
+      wget https://logdog.loggly.com/media/logs-01.loggly.com_sha12.crt
+
+  rsyslog:
+    plugin: nil
+    stage-packages:
+    - rsyslog
+    - rsyslog-gnutls
+    - adduser
+    - init-system-helpers
+    - libestr0
+    - libfastjson4
+    - libsystemd0
+    - libuuid1
+    - lsb-base 
+    - ucf
+    - zlib1g
+    - logrotate 
+
+  config:
+    source: ./config
+    plugin: dump

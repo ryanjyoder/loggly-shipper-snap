@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+mkdir -p $SNAP_DATA/etc/rsyslog.d/keys/ca.d/
+cp $SNAP/logs-01.loggly.com_sha12.crt $SNAP_DATA/etc/rsyslog.d/keys/ca.d/
