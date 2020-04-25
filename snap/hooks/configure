@@ -2,3 +2,7 @@
 
 TOKEN=$(snapctl get customer-token)
 sed "s/TOKEN/$TOKEN/" $SNAP/config > $SNAP_DATA/config
+
+snapctl restart ${SNAP_NAME}.rsyslog 2>&1 || true
+
+exit
